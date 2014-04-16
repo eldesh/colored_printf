@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdarg.h>
 #include "detail/raw_colored_printf.h"
 
 //! terminal foreground color

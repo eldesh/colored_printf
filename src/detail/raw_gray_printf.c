@@ -4,14 +4,6 @@
 #include "detail/raw_colored_printf.h"
 #include "detail/raw_gray_printf.h"
 
-static int reset_foreground_color (FILE * fp) {
-	return fprintf_qualify(fp, TERMINAL_FR_DEFAULT);
-}
-
-static int reset_background_color (FILE * fp) {
-	return fprintf_qualify(fp, TERMINAL_BK_DEFAULT);
-}
-
 void start_gray (FILE * fp, uint8_t fr_gray, uint8_t bk_gray) {
 	assert(fr_gray < 24);
 	assert(bk_gray < 24);

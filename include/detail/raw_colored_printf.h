@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdarg.h>
 
 //! terminal foreground color
 extern uint8_t const TERMINAL_FR_BLACK  ;
@@ -38,6 +39,7 @@ extern uint8_t const TEXT_ATTR_CONCEALED ;   //!< Concealed on
 
 int fprintf_qualify (FILE * fp, uint8_t qualify);
 int  printf_qualify (uint8_t qualify);
+
 int vfprintf_colored(uint8_t qualify, FILE * fp, char const * format, va_list ap);
 int fprintf_colored(uint8_t qualify, FILE * fp, char const * format, ...);
 int printf_colored(uint8_t qualify, char const * format, ...);
