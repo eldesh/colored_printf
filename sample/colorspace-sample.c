@@ -7,9 +7,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "detail/raw_colored_printf.h"
-#include "detail/raw_256colored_printf.h"
-#include "detail/raw_gray_printf.h"
+#include "colored_printf.h"
 
 void fprintf_system_colors (FILE * fp) {
 	int i;

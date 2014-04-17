@@ -1,14 +1,18 @@
 
 CC= gcc
-CFLAGS= -Wall -Wextra -I../include -L../lib
+CFLAGS= -Wall -Wextra -Iinclude
 
-VPATH= .:..:../src:../src/detail
+VPATH= src:src/detail
 
-TARGET= colorspace-sample
+LIB_DIR= lib
+TARGET= $(LIB_DIR)/libcolored-printf.a
 
-SRC= colorspace-sample.c
+SRC= \
+	raw_256colored_printf.c \
+	raw_colored_printf.c \
+	raw_gray_printf.c
+
 OBJ= $(SRC:.c=.o)
-LIB= colored-printf
 
 all: $(TARGET)
 
@@ -21,16 +25,22 @@ all: $(TARGET)
 		| sed "s/\($*\)\.o[ :]*/\1.o $@ : /g" > $@; \
 		[ -s $@ ] || rm -rf $@'
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) -l$(LIB)
+$(TARGET): lib_dir_mk $(OBJ)
+	@ar r $(TARGET) $(OBJ)
 
 ifeq (,$(findstring $(MAKECMDGOALS),clean))
 include $(SRC:.c=.d)
 endif
+
+.PHONY: lib_dir_mk
+lib_dir_mk:
+	@echo "mkdir $(LIB_DIR)"
+	@mkdir -p $(LIB_DIR)
 
 .PHONY: clean
 clean:
 	rm -rf $(TARGET)
 	rm -rf $(OBJ)
 	rm -rf $(SRC:.c=.d)
+	@make -C sample clean
 
