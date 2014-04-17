@@ -9,6 +9,13 @@ typedef uint8_t color216_t;
 uint8_t color216_red  (color216_t color);
 uint8_t color216_green(color216_t color);
 uint8_t color216_blue (color216_t color);
+/**
+ * \pre
+ *    r < 6
+ *    g < 6
+ *    b < 6
+ */
+color216_t make_color216_t (uint8_t r, uint8_t g, uint8_t b);
 
 typedef uint8_t color256_t;
 int start_256color_foreground(FILE * fp, color256_t color);

@@ -18,6 +18,14 @@ uint8_t color216_blue (color216_t color) {
 	return (color - 16) / 1;
 }
 
+color216_t make_color216_t (uint8_t r, uint8_t g, uint8_t b) {
+	assert(r < 6);
+	assert(g < 6);
+	assert(b < 6);
+	return 16 + r*36 + g*6 + b;
+}
+
+
 int start_256color_foreground(FILE * fp, color256_t color) {
 	return fprintf(fp, "\x1b[38;5;%dm", color);
 }

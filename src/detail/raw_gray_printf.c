@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <assert.h>
 #include "detail/raw_colored_printf.h"
+#include "detail/raw_256colored_printf.h"
 #include "detail/raw_gray_printf.h"
 
 void start_gray (FILE * fp, uint8_t fr_gray, uint8_t bk_gray) {
@@ -22,8 +23,7 @@ int fprintf_gray (FILE * fp, uint8_t fr_gray, uint8_t bk_gray, char const * form
 		va_start(ap, format);
 		start_gray(fp, fr_gray, bk_gray);
 		r = vfprintf(fp, format, ap);
-		reset_foreground_color(fp);
-		reset_background_color(fp);
+		fprintf_qualify(fp, TEXT_ATTR_OFF);
 		va_end(ap);
 		return r;
 	}
