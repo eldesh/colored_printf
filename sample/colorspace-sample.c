@@ -1,4 +1,12 @@
+/**
+ * sample & test of terminal's color capability
+ *
+ * output is similar to color-space.pl of the XTerm
+ *
+ * xterm: http://invisible-island.net/xterm/
+ */
 #include <stdio.h>
+#include <stdlib.h>
 #include "detail/raw_colored_printf.h"
 #include "detail/raw_256colored_printf.h"
 #include "detail/raw_gray_printf.h"
