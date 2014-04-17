@@ -3,7 +3,7 @@
 #include "detail/raw_256colored_printf.h"
 #include "detail/raw_gray_printf.h"
 
-void printf_system_colors (FILE * fp) {
+void fprintf_system_colors (FILE * fp) {
 	int i;
 	fprintf(fp, "System colors:\n");
 
@@ -19,7 +19,7 @@ void printf_system_colors (FILE * fp) {
 	fprintf(fp, "\n\n");
 }
 
-void printf_color_cube216 (FILE * fp) {
+void fprintf_color_cube216 (FILE * fp) {
 	uint8_t r,g,b;
 	fprintf(fp, "Color cube, 6x6x6:\n");
 
@@ -37,9 +37,21 @@ void printf_color_cube216 (FILE * fp) {
 	fprintf(fp, "\n\n");
 }
 
+void fprintf_grayscale_ramp(FILE * fp) {
+	uint8_t gray;
+	fprintf(fp, "Grayscale ramp:\n");
+	for (gray=0; gray<24; ++gray)
+		fprintf_gray(fp, 23, gray, "::");
+
+	fprintf_qualify(fp, TEXT_ATTR_OFF);
+	fprintf(fp, "\n\n");
+}
+
 int main (void) {
-	printf_system_colors (stdout);
-	printf_color_cube216 (stdout);
+	fprintf_system_colors (stdout);
+	fprintf_color_cube216 (stdout);
+	fprintf_grayscale_ramp(stdout);
 	return 0;
 }
+
 
