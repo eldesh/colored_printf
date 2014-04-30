@@ -1,29 +1,35 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <assert.h>
-#include "detail/raw_colored_printf.h"
 #include "detail/raw_256colored_printf.h"
 #include "detail/raw_gray_printf.h"
 
-void start_gray (FILE * fp, uint8_t fr_gray, uint8_t bk_gray) {
-	assert(fr_gray < 24);
-	assert(bk_gray < 24);
-	start_256color_foreground(fp, 232+fr_gray);
-	start_256color_background(fp, 232+bk_gray);
+void set_gray (FILE * fp, uint8_t fr_gray, uint8_t bk_gray) {
+	set_256color_foreground(fp, color256_of_gray(fr_gray));
+	set_256color_background(fp, color256_of_gray(bk_gray));
 }
 
-int fprintf_gray (FILE * fp, uint8_t fr_gray, uint8_t bk_gray, char const * format, ...) {
-	assert(fr_gray < 24);
-	assert(bk_gray < 24);
-	{
-		int r;
-		va_list ap;
-		va_start(ap, format);
-		start_gray(fp, fr_gray, bk_gray);
-		r = vfprintf(fp, format, ap);
-		fprintf_qualify(fp, TEXT_ATTR_OFF);
-		va_end(ap);
-		return r;
-	}
+int vfprintf_gray (uint8_t fr_gray, uint8_t bk_gray, FILE * fp, char const * format, va_list ap) {
+	color256_t const fr = color256_of_gray(fr_gray);
+	color256_t const bk = color256_of_gray(bk_gray);
+	return vfprintf_256colored(fr, bk, fp, format, ap);
+}
+
+int fprintf_gray (uint8_t fr_gray, uint8_t bk_gray, FILE * fp, char const * format, ...) {
+	int r;
+	va_list ap;
+	va_start(ap, format);
+	r = vfprintf_gray(fr_gray, bk_gray, fp, format, ap);
+	va_end(ap);
+	return r;
+}
+
+int printf_gray (uint8_t fr_gray, uint8_t bk_gray, char const * format, ...) {
+	int r;
+	va_list ap;
+	va_start(ap, format);
+	r = fprintf_gray(fr_gray, bk_gray, stdout, format, ap);
+	va_end(ap);
+	return r;
 }
 

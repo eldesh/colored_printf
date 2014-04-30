@@ -43,8 +43,8 @@ for example, you can accentuate error messages like below:
 
 .. code-block:: c
 
-    uint8_t    const white = 255;
-    color216_t const   red = make_color216_t(5,0,0);
+    color256_t const white = color256_of_gray(23);
+    color256_t const   red = color256_of_rgb(5,0,0);
     fprintf_256colored(white, red, stdout
                       , "[ERROR] no such file or directory (%s)"
                       , path_to_dir);

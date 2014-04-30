@@ -3,43 +3,55 @@
 #include "detail/raw_colored_printf.h"
 #include "detail/raw_256colored_printf.h"
 
-uint8_t color216_red  (color216_t color) {
+static uint8_t const TERMINAL_FR_256COLOR_TEXT = 38;
+static uint8_t const TERMINAL_BK_256COLOR_TEXT = 48;
+
+uint8_t color256_red  (color256_t color) {
 	assert(16 <= color && color <= 16+216);
 	return (color - 16) / 36;
 }
 
-uint8_t color216_green(color216_t color) {
+uint8_t color256_green(color256_t color) {
 	assert(16 <= color && color <= 16+216);
 	return (color - 16) / 6;
 }
 
-uint8_t color216_blue (color216_t color) {
+uint8_t color256_blue (color256_t color) {
 	assert(16 <= color && color <= 16+216);
 	return (color - 16) / 1;
 }
 
-color216_t make_color216_t (uint8_t r, uint8_t g, uint8_t b) {
+color256_t color256_of_std (uint8_t color) {
+	assert(color < 16);
+	return color;
+}
+
+color256_t color256_of_gray(uint8_t gray) {
+	assert(gray < 24);
+	return 232 + gray;
+}
+
+color256_t color256_of_rgb (uint8_t r, uint8_t g, uint8_t b) {
 	assert(r < 6);
 	assert(g < 6);
 	assert(b < 6);
 	return 16 + r*36 + g*6 + b;
 }
 
-
-int start_256color_foreground(FILE * fp, color256_t color) {
-	return fprintf(fp, "\x1b[38;5;%dm", color);
+int set_256color_foreground(FILE * fp, color256_t color) {
+	return fprintf(fp, "\x1b[%d;5;%dm", TERMINAL_FR_256COLOR_TEXT, color);
 }
 
-int start_256color_background(FILE * fp, color256_t color) {
-	return fprintf(fp, "\x1b[48;5;%dm", color);
+int set_256color_background(FILE * fp, color256_t color) {
+	return fprintf(fp, "\x1b[%d;5;%dm", TERMINAL_BK_256COLOR_TEXT, color);
 }
 
 int vfprintf_256colored(color256_t fr_color, color256_t bk_color, FILE * fp, char const * format, va_list ap) {
 	int r;
-	start_256color_foreground(fp, fr_color);
-	start_256color_background(fp, bk_color);
+	set_256color_foreground(fp, fr_color);
+	set_256color_background(fp, bk_color);
 	r = vfprintf(fp, format, ap);
-	fprintf_qualify(fp, TEXT_ATTR_OFF);
+	fset_sgr_param(fp, TEXT_ATTR_OFF);
 	return r;
 }
 

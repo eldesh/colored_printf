@@ -5,21 +5,51 @@
 #include <stdint.h>
 #include <stdarg.h>
 
-typedef uint8_t color216_t;
-uint8_t color216_red  (color216_t color);
-uint8_t color216_green(color216_t color);
-uint8_t color216_blue (color216_t color);
+typedef uint8_t color256_t;
+
+/**
+ * \name constructor
+ * @{
+ */
+/**
+ * \pre
+ *    color < 16
+ */
+color256_t color256_of_std (uint8_t color);
+/**
+ * \pre
+ *    grapy < 24
+ */
+color256_t color256_of_gray(uint8_t gray);
 /**
  * \pre
  *    r < 6
  *    g < 6
  *    b < 6
  */
-color216_t make_color216_t (uint8_t r, uint8_t g, uint8_t b);
+color256_t color256_of_rgb (uint8_t r, uint8_t g, uint8_t b);
+/** @} */
 
-typedef uint8_t color256_t;
-int start_256color_foreground(FILE * fp, color256_t color);
-int start_256color_background(FILE * fp, color256_t color);
+/**
+ * \name accessor
+ *
+ * color256_red  (color256_of_rgb (r,?,?)) == r
+ * color256_green(color256_of_rgb (?,g,?)) == g
+ * color256_blue (color256_of_rgb (?,?,b)) == b
+ * color256_gray (color256_of_gray(gray )) == gray
+ * color256_std  (color256_of_std (color)) == color
+ *
+ * @{
+ */
+uint8_t color256_red  (color256_t color);
+uint8_t color256_green(color256_t color);
+uint8_t color256_blue (color256_t color);
+uint8_t color256_gray (color256_t color);
+uint8_t color256_std  (color256_t color);
+/** @} */
+
+int set_256color_foreground(FILE * fp, color256_t color);
+int set_256color_background(FILE * fp, color256_t color);
 
 int vfprintf_256colored(color256_t fr_color, color256_t bk_color, FILE * fp, char const * format, va_list ap);
 int fprintf_256colored(color256_t fr_color, color256_t bk_color, FILE * fp, char const * format, ...);
