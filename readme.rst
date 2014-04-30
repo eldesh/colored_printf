@@ -51,7 +51,6 @@ for example, you can accentuate error messages like below:
 
 then, users would see the red-colored error message.
 
-Requirements
 ---------------------------------------------------------------
 
 .. [#ansi] http://en.wikipedia.org/wiki/ANSI_escape_code
