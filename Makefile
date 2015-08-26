@@ -1,5 +1,5 @@
 
-CC= gcc
+CC ?= gcc
 CFLAGS= -Wall -Wextra -Iinclude
 
 VPATH= src:src/detail
