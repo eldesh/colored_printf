@@ -32,6 +32,10 @@ ifeq (,$(findstring $(MAKECMDGOALS),clean))
 include $(SRC:.c=.d)
 endif
 
+.PHONY: sample
+sample:
+	@make -C sample
+
 .PHONY: lib_dir_mk
 lib_dir_mk:
 	@echo "mkdir $(LIB_DIR)"

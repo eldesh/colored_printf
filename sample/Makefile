@@ -1,16 +1,14 @@
 
 CC ?= gcc
-CFLAGS= -Wall -Wextra -I../include -L../lib
+CFLAGS := -std=c99 -g -Wall -Wextra -I../include -L../lib
 
-VPATH= .:..:../src:../src/detail
+TARGETS := colorspace-sample show_ppm
 
-TARGET= colorspace-sample
+SRC := colorspace-sample.c show_ppm.c
+OBJ := $(SRC:.c=.o)
+LIB := colored-printf
 
-SRC= colorspace-sample.c
-OBJ= $(SRC:.c=.o)
-LIB= colored-printf
-
-all: $(TARGET)
+all: $(TARGETS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
@@ -21,8 +19,9 @@ all: $(TARGET)
 		| sed "s/\($*\)\.o[ :]*/\1.o $@ : /g" > $@; \
 		[ -s $@ ] || rm -rf $@'
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) -l$(LIB)
+$(TARGETS): %: %.o
+	@echo "  LN [$@]"
+	@$(CC) $(CFLAGS) -o $@ $^ -l$(LIB)
 
 ifeq (,$(findstring $(MAKECMDGOALS),clean))
 include $(SRC:.c=.d)
@@ -30,7 +29,7 @@ endif
 
 .PHONY: clean
 clean:
-	rm -rf $(TARGET)
+	rm -rf $(TARGETS)
 	rm -rf $(OBJ)
 	rm -rf $(SRC:.c=.d)
 
