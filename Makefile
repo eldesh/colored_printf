@@ -45,8 +45,8 @@ lib_dir_mk:
 
 .PHONY: clean
 clean:
-	rm -rf $(TARGET)
-	rm -rf $(OBJ)
-	rm -rf $(SRC:.c=.d)
+	$(RM) -r $(TARGET)
+	$(RM) -r $(OBJ)
+	$(RM) -r $(SRC:.c=.d)
 	@make -C sample clean
 

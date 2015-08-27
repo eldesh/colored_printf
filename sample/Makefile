@@ -30,7 +30,7 @@ endif
 
 .PHONY: clean
 clean:
-	rm -rf $(TARGETS)
-	rm -rf $(OBJ)
-	rm -rf $(SRC:.c=.d)
+	$(RM) -r $(TARGETS)
+	$(RM) -r $(OBJ)
+	$(RM) -r $(SRC:.c=.d)
 
