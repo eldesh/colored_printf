@@ -2,9 +2,9 @@
 CC ?= gcc
 CFLAGS := -std=c99 -g -Wall -Wextra -I../include -L../lib
 
-TARGETS := colorspace-sample show_ppm
+TARGETS := colorchart show_ppm
 
-SRC := colorspace-sample.c show_ppm.c
+SRC := $(TARGETS:=.c)
 OBJ := $(SRC:.c=.o)
 LIB := colored-printf
 

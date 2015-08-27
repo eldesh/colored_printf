@@ -18,14 +18,19 @@ Build
 
 just run *make* in top level directory of this library, then you will get *lib/libcolored-printf.a*.
 
-*make -C sample* would build the sample program *sample/colorspace-sample* .
-This sample output color chart.
+*make sample* would build the sample programs *colorchart* and *show_ppm* .
+
+colorchart
+  display color chart.
+
+show_ppm
+  display PPM image.
 
 
 How to Use
 ---------------------------------------------------------------
 
-see sample/colorspace-sample.c :)
+see sample/colorchart.c :)
 
 
 Main API
