@@ -11,10 +11,11 @@ LIB := colored-printf
 all: $(TARGETS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	@echo "  CC [$@]"
+	@$(CC) $(CFLAGS) -c $<
 
 %.d: %.c
-	@echo "generate [$@] from [$*]"
+	@echo "  GEN [$@]"
 	@$(SHELL) -ec '$(CC) -MM $(CFLAGS) $< \
 		| sed "s/\($*\)\.o[ :]*/\1.o $@ : /g" > $@; \
 		[ -s $@ ] || rm -rf $@'
